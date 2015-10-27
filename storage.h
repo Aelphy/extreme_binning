@@ -7,10 +7,12 @@
 
 #endif //EXTREME_BINNING_STORAGE_H
 
+#define DB_FILE "./db_file"
+
 #include <string>
 
 class Storage {
-public:
+ public:
     Storage(std::string file_path);
     long long int gen_next_bin_id();
 };

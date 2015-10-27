@@ -10,7 +10,7 @@
 #include "util.h"
 
 class IndexItem {
-public:
+ public:
     unsigned char file_hash[MD5_DIGEST_LENGTH];
     unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH];
     long long int bin_id;

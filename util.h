@@ -7,14 +7,20 @@
 
 #endif //EXTREME_BINNING_UTIL_H
 
+#define FILE_STEP 1024
+
 #include <openssl/md5.h>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 class Util {
-public:
-    Util();
+ public:
     unsigned char result[MD5_DIGEST_LENGTH];
-    void hash_next_chunk(unsigned char * data, int len);
+    void init();
+    void hash_next_chunk(unsigned char *data, int len);
+    void hash_file(std::string file_path);
     void finish_hash();
-private:
+ private:
     MD5_CTX md_context;
 };

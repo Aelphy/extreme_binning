@@ -7,15 +7,13 @@
 
 #endif //EXTREME_BINNING_BIN_H
 
-#define DB_PATH "./db_file"
-
 #include <unordered_map>
 #include "storage.h"
 
 class Bin {
-public:
-    static Storage * storage;
-    std::unordered_map <unsigned char *, int> bin_entries;
+ public:
+    static Storage *storage;
+    std::unordered_map <unsigned char *, int> chunks;
     Bin();
     Bin(long long int id);
     static long long int gen_next_id();

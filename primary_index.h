@@ -12,10 +12,10 @@
 #include "bin.h"
 
 class PrimaryIndex {
-public:
+ public:
     std::unordered_map <unsigned char *, IndexItem *> items_by_file_hash;
     std::unordered_map <unsigned char *, IndexItem *> items_by_representative_chunk_hash;
     Bin * add(unsigned char file_hash[MD5_DIGEST_LENGTH], unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH]);
-private:
+ private:
     void insert(unsigned char file_hash[MD5_DIGEST_LENGTH], unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH], long long int bin_id);
 };

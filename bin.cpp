@@ -4,7 +4,7 @@
 
 #include "bin.h"
 
-Storage * Bin::storage = new Storage(DB_PATH);
+Storage * Bin::storage = new Storage(DB_FILE);
 
 Bin::Bin() {
 
