@@ -12,9 +12,11 @@
 
 class Bin {
  public:
-    static Storage *storage;
     std::unordered_map <unsigned char *, int> chunks;
-    Bin();
-    Bin(long long int id);
+    explicit Bin(long long int id);
     static long long int gen_next_id();
+    long long int get_bin_id();
+ private:
+    long long int id_;
+    static Storage *storage;
 };

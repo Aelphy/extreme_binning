@@ -4,8 +4,14 @@
 
 #include "index_item.h"
 
-IndexItem::IndexItem(unsigned char file_hash[MD5_DIGEST_LENGTH],
-                     unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH],
-                     long long int bin_id) {
+IndexItem::IndexItem(const unsigned char file_hash[MD5_DIGEST_LENGTH],
+                     const unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH],
+                     const long long int bin_id) {
+    bin_id_ = bin_id;
+    memcpy(file_hash_, file_hash, MD5_DIGEST_LENGTH);
+    memcpy(representative_chunk_hash_, representative_chunk_hash, MD5_DIGEST_LENGTH);
+}
 
+long long int IndexItem::get_bin_id() {
+    return bin_id_;
 }

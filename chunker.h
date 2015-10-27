@@ -13,10 +13,9 @@
 
 class Chunker {
  public:
-    std::ifstream fin;
     void init(std::string file_path);
     unsigned char * get_next_chunk();
     void finish();
  private:
-
+    std::ifstream fin;
 };

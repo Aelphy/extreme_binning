@@ -11,10 +11,13 @@
 
 class IndexItem {
  public:
-    unsigned char file_hash[MD5_DIGEST_LENGTH];
-    unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH];
-    long long int bin_id;
-    IndexItem(unsigned char file_hash[MD5_DIGEST_LENGTH],
-              unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH],
-              long long int bin_id);
+    IndexItem(const unsigned char file_hash[MD5_DIGEST_LENGTH],
+              const unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH],
+              const long long int bin_id);
+
+    long long int get_bin_id();
+ private:
+    unsigned char file_hash_[MD5_DIGEST_LENGTH];
+    unsigned char representative_chunk_hash_[MD5_DIGEST_LENGTH];
+    long long int bin_id_;
 };

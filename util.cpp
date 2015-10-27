@@ -10,7 +10,7 @@ void Util::init() {
     MD5_Init(&md_context);
 }
 
-void Util::hash_next_chunk(unsigned char * data, int len) {
+void Util::hash_next_chunk(char * data, int len) {
     MD5_Update(&md_context, data, len);
 }
 

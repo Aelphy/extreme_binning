@@ -17,5 +17,5 @@ class PrimaryIndex {
     std::unordered_map <unsigned char *, IndexItem *> items_by_representative_chunk_hash;
     Bin * add(unsigned char file_hash[MD5_DIGEST_LENGTH], unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH]);
  private:
-    void insert(unsigned char file_hash[MD5_DIGEST_LENGTH], unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH], long long int bin_id);
+    void insert(unsigned char file_hash[MD5_DIGEST_LENGTH], unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH]);
 };
