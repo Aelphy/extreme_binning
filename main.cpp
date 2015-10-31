@@ -1,8 +1,8 @@
-#define RECIPE_FILE "recipe_file"
-
 #include <boost/filesystem.hpp>
 #include "primary_index.h"
 #include "chunker.h"
+
+#define RECIPE_FILE "./data/recipe_file"
 
 using namespace std;
 using namespace boost::filesystem;
@@ -19,32 +19,41 @@ int main() {
 
             Chunker *chunker = new Chunker();
             PrimaryIndex *primary_index = new PrimaryIndex();
-            Util *util = new Util();
+            Util *util = Util::get_instance();
+            Storage::initialize();
 
-            util->init();
+            util->init_hash();
             util->hash_file(file_path);
             util->finish_hash();
 
             ofstream recipe_file(RECIPE_FILE);
 
             try {
-                primary_index->items_by_file_hash.at(util->result);
+                primary_index->items_by_file_hash.at(util->get_hash());
                 // add information about duplicates to restore_file
             } catch (out_of_range) {
                 chunker->init(file_path);
-                util->init();
+                util->init_hash();
+                vector<Chunk *> chunks;
 
-//                while (true) {
-//
-//                }
+                while (!chunker->eof()) {
+                    Chunk *chunk = chunker->get_next_chunk();
+                    chunks.push_back(chunk);
+                    // write info to recipe file
+                }
 
                 chunker->finish();
+
+                //select representative
+                // if found get bin and modify it
+                // else write new bin
             }
 
             recipe_file.close();
             delete chunker;
             delete primary_index;
             delete util;
+            Storage::finalize();
         }
     }
 

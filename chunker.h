@@ -10,12 +10,19 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "chunk.h"
+#include "util.h"
+#include "storage.h"
 
 class Chunker {
  public:
     void init(std::string file_path);
-    unsigned char * get_next_chunk();
+    Chunk * get_next_chunk();
     void finish();
+    bool eof();
  private:
-    std::ifstream fin;
+    bool eof_ = false;
+    std::ifstream fin_;
+    long long int current_position;
+    char read_next();
 };

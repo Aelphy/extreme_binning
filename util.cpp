@@ -4,7 +4,19 @@
 
 #include "util.h"
 
-void Util::init() {
+Util * Util::instance_;
+
+Util::Util() {}
+
+Util * Util::get_instance() {
+    if (!instance_) {
+        instance_ = new Util();
+    }
+
+    return instance_;
+}
+
+void Util::init_hash() {
     MD5_CTX new_md_context;
     md_context = new_md_context;
     MD5_Init(&md_context);
@@ -33,5 +45,17 @@ void Util::hash_file(std::string file_path) {
 }
 
 void Util::finish_hash() {
-    MD5_Final(result, &md_context);
+    MD5_Final(result_, &md_context);
+}
+
+unsigned char * Util::get_hash() {
+    return result_;
+}
+
+int Util::rabin_fingerprint(std::vector<char> data, int start) {
+    if (start >= data.size() - 1) {
+        return -1;
+    } else {
+
+    }
 }
