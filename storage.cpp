@@ -17,6 +17,7 @@ void Storage::initialize() {
 }
 
 void Storage::finalize() {
+    delete instance_;
 }
 
 long long int Storage::gen_next_id() {

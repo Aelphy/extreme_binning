@@ -16,18 +16,18 @@
     #define MIN_CHUNK_SIZE 1
 
     class Util {
-    public:
+     public:
         const static int D = D_VAL;
         const static int r = r_VAL;
         const static int min_chunk_size = MIN_CHUNK_SIZE;
         static Util * get_instance();
         void init_hash();
-        void hash_next_chunk(char *data, int len);
+        void hash_chunk(const char *data, int len);
         void hash_file(std::string file_path);
         void finish_hash();
-        unsigned char * get_hash();
         int rabin_fingerprint(std::vector<char> data, int start);
-    private:
+        unsigned char * get_result();
+     private:
         static Util * instance_;
         unsigned char result_[MD5_DIGEST_LENGTH];
         MD5_CTX md_context;

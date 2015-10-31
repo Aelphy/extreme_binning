@@ -4,10 +4,24 @@
 
 #include "bin.h"
 
-Bin::Bin(long long int id) {
-    id_ = id;
+Bin::~Bin() {
+    for (auto it = chunks.begin(); it != chunks.end(); ++it) {
+        delete it->first;
+    }
+}
+
+Bin::Bin(long long int id, bool existing_flag) : id_(id), existing(existing_flag) {
+
 }
 
 long long int Bin::get_bin_id() {
     return id_;
+}
+
+void Bin::save() {
+
+}
+
+void Bin::update(std::vector<Chunk *>) {
+
 }

@@ -8,11 +8,11 @@
     #define DB_FILE "./data/db_file"
 
     class Storage {
-    public:
+     public:
         static void initialize();
         static void finalize();
         static long long int gen_next_id();
-    private:
+     private:
         static Storage * instance_;
         Storage(std::string file_path);
     };

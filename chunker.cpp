@@ -5,7 +5,7 @@
 #include "chunker.h"
 
 void Chunker::init(std::string fp) {
-    fin_.open(fp, std::ios::binary);
+    fin_.open(fp, std::ifstream::binary);
     current_position = 0;
 }
 
