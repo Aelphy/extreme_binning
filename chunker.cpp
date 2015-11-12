@@ -13,7 +13,7 @@ Chunk * Chunker::get_next_chunk() {
     Chunk *chunk = new Chunk(Storage::gen_next_id());
     std::vector<char> chunk_data;
 
-    for (int i = 0; i < Util::min_chunk_size; ++i) {
+    for (int i = 0; i < Util::window; ++i) {
         if (!fin_.eof()) {
             chunk_data.push_back(read_next());
         } else {
@@ -23,12 +23,9 @@ Chunk * Chunker::get_next_chunk() {
     }
 
     Util *util = Util::get_instance();
-    int current_state = util->rabin_fingerprint(chunk_data, 0);
-    int i = 0;
+    int current_state = util->rabin_fingerprint(chunk_data);
 
-    while (current_state % Util::D != Util::r) {
-        ++i;
-
+    while (current_state % D != r) {
         if (!fin_.eof()) {
             chunk_data.push_back(read_next());
         } else {
@@ -36,10 +33,11 @@ Chunk * Chunker::get_next_chunk() {
             break;
         }
 
-        current_state = util->rabin_fingerprint(chunk_data, i);
+        current_state = util->rabin_fingerprint(chunk_data);
     }
 
     chunk->set_data(chunk_data.data(), chunk_data.size());
+    util->finish_rabin_hash();
     return chunk;
 }
 

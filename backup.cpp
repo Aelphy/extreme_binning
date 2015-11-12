@@ -37,16 +37,16 @@ int main() {
         if (is_regular_file(itr->path())) {
             string file_path = itr->path().string();
 
-            util->init_hash();
+            util->init_md5_hash();
             util->hash_file(file_path);
-            util->finish_hash();
-            const unsigned char * file_hash = util->get_result();
+            util->finish_md5_hash();
+            const unsigned char * file_hash = util->get_md5_result();
 
             auto item = primary_index->items_by_file_hash.find(file_hash);
 
             if (item == primary_index->items_by_file_hash.end()) {
                 chunker->init(file_path);
-                util->init_hash();
+                util->init_md5_hash();
                 vector<Chunk *> chunks;
                 Chunk *chunk;
                 unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH];
@@ -54,22 +54,22 @@ int main() {
                 if (!chunker->eof()) {
                     chunk = chunker->get_next_chunk();
                     chunks.push_back(chunk);
-                    util->init_hash();
+                    util->init_md5_hash();
                     util->hash_chunk(chunk->data, chunk->length);
-                    util->finish_hash();
-                    memcpy(representative_chunk_hash, util->get_result(), MD5_DIGEST_LENGTH);
+                    util->finish_md5_hash();
+                    memcpy(representative_chunk_hash, util->get_md5_result(), MD5_DIGEST_LENGTH);
                     // write info to recipe file
                 }
 
                 while (!chunker->eof()) {
                     chunk = chunker->get_next_chunk();
                     chunks.push_back(chunk);
-                    util->init_hash();
+                    util->init_md5_hash();
                     util->hash_chunk(chunk->data, chunk->length);
-                    util->finish_hash();
+                    util->finish_md5_hash();
 
-                    if (hash_cmp(util->get_result(), representative_chunk_hash) == -1) {
-                        memcpy(representative_chunk_hash, util->get_result(), MD5_DIGEST_LENGTH);
+                    if (hash_cmp(util->get_md5_result(), representative_chunk_hash) == -1) {
+                        memcpy(representative_chunk_hash, util->get_md5_result(), MD5_DIGEST_LENGTH);
                     }
                     // write info to recipe file
                 }

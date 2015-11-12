@@ -11,8 +11,8 @@
 #include <iostream>
 #include <fstream>
 #include "chunk.h"
-#include "util.h"
 #include "storage.h"
+#include "util.h"
 
 class Chunker {
  public:
