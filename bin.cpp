@@ -14,7 +14,7 @@ Bin::Bin(long long int id, bool existing_flag) : id_(id), existing(existing_flag
 
 }
 
-long long int Bin::get_bin_id() {
+long long int Bin::get_id() {
     return id_;
 }
 

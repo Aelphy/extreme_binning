@@ -6,7 +6,7 @@
 
 void Chunker::init(std::string fp) {
     fin_.open(fp, std::ifstream::binary);
-    current_position = 0;
+    current_position_ = 0;
 }
 
 Chunk * Chunker::get_next_chunk() {
@@ -48,7 +48,7 @@ void Chunker::finish() {
 char Chunker::read_next() {
     char buffer;
     fin_.read(&buffer, 1);
-    current_position++;
+    current_position_++;
     return buffer;
 }
 

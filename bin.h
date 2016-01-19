@@ -18,7 +18,7 @@ class Bin {
     std::unordered_map <Chunk *, int> chunks;
     Bin(long long int id, bool existing);
     ~Bin();
-    long long int get_bin_id();
+    long long int get_id();
     void save();
     void update(std::vector<Chunk *>);
  private:

@@ -23,6 +23,6 @@ class Chunker {
  private:
     bool eof_ = false;
     std::ifstream fin_;
-    long long int current_position;
+    long long int current_position_;
     char read_next();
 };

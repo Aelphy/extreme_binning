@@ -3,6 +3,7 @@
 //
 
 #ifndef EXTREME_BINNING_CHUNK_H
+#define EXTREME_BINNING_CHUNK_H
     #include <string>
 
     class Chunk {
@@ -16,6 +17,4 @@
      private:
         long long int id_;
     };
-#define EXTREME_BINNING_CHUNK_H
-
 #endif //EXTREME_BINNING_CHUNK_H
