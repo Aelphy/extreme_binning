@@ -9,7 +9,15 @@ FIND_PACKAGE(OpenSSL)
 FIND_PACKAGE(Boost COMPONENTS regex system filesystem REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
-set(SOURCE_FILES backup.cpp util.h chunker.cpp chunker.h bin.cpp bin.h index_item.cpp index_item.h primary_index.cpp primary_index.h util.cpp util.h storage.cpp storage.h chunk.h chunk.cpp rabin_karp.cpp rabin_karp.h)
+set(SOURCE_FILES backup.cpp
+        chunker.cpp
+        bin.cpp
+        index_item.cpp
+        primary_index.cpp
+        util.cpp
+        storage.cpp
+        chunk.cpp
+        rabin_karp_hasher.cpp)
 add_executable(extreme_binning ${SOURCE_FILES})
 
 target_link_libraries(extreme_binning

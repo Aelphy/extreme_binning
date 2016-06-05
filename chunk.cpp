@@ -10,7 +10,7 @@ Chunk::Chunk(long long int id, char * chuk_data, int data_length) : id_(id), len
 };
 
 Chunk::~Chunk() {
-    delete data;
+    delete[] data;
 }
 
 void Chunk::set_data(char *chunk_data, int data_length) {

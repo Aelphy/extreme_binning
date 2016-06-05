@@ -4,16 +4,6 @@
 
 #include "util.h"
 
-Util * Util::instance_;
-
-Util * Util::get_instance() {
-    if (!instance_) {
-        instance_ = new Util();
-    }
-
-    return instance_;
-}
-
 void Util::init_md5_hash() {
     MD5_CTX new_md_context;
     md_context_ = new_md_context;
