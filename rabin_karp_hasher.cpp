@@ -2,6 +2,7 @@
 #include "rabin_karp_hasher.h"
 
 RabinKarpHasher::RabinKarpHasher() {
+    data_ = nullptr;
     init_tables();
 }
 
@@ -128,6 +129,10 @@ void RabinKarpHasher::recompute(char next_char) {
 }
 
 void RabinKarpHasher::finish() {
+    if (data_ == nullptr) {
+        std::cerr <<  "do not forget to init before finish" << std::endl;
+    }
+
     rolling_hash_ = -1;
     data_ = nullptr;
 }
