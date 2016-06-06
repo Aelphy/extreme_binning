@@ -13,6 +13,8 @@
     #include "util.h"
     #include "rabin_karp_hasher.h"
 
+    #define WINDOW_SIZE 48
+
     class Chunker {
      public:
         void init(std::string file_path);

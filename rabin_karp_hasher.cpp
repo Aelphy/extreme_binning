@@ -1,3 +1,4 @@
+#include <iostream>
 #include "rabin_karp_hasher.h"
 
 RabinKarpHasher::RabinKarpHasher() {
@@ -84,6 +85,11 @@ void RabinKarpHasher::init_tables() {
 }
 
 void RabinKarpHasher::init(std::vector<char> *data) {
+    if (data_ != nullptr) {
+        std::cerr <<  "do not forget to finish before init" << std::endl;
+        return;
+    }
+
     data_ = data;
     rolling_hash_ = 0;
 
@@ -91,8 +97,6 @@ void RabinKarpHasher::init(std::vector<char> *data) {
     // This makes the later loop easier.
     const int starter_bytes = data_->size() % 8;
     int s = 0;
-
-    std::cout << starter_bytes << std::endl;
 
     while (s < starter_bytes) {
         rolling_hash_ = (rolling_hash_ << 8) ^ (data_->at(s++) & 0xFF);
@@ -112,33 +116,15 @@ void RabinKarpHasher::init(std::vector<char> *data) {
     }
 }
 
-// TODO: a bit not effictive
 void RabinKarpHasher::recompute(char next_char) {
+    if (data_ == nullptr) {
+        std::cerr <<  "impossible to recompute before init" << std::endl;
+        return;
+    }
+
     data_->push_back(next_char);
-    rolling_hash_ = 0;
 
-    // First, process a few bytes so that the number of bytes remaining is a multiple of 8.
-    // This makes the later loop easier.
-    const int starter_bytes = data_->size() % 4;
-
-    int s = 0;
-
-    if (data_->size() > WINDOW_SIZE) {
-        s = data_->size() - WINDOW_SIZE;
-    }
-
-    while (s < starter_bytes) {
-        rolling_hash_ = (rolling_hash_ << 16) ^ (data_->at(s++) & 0xFFFF);
-    }
-
-    while (s < data_->size()) {
-        rolling_hash_ = shifted_rolling_hash(rolling_hash_) ^
-                           ((unsigned long long)(data_->at(s) & 0xFFFF) << 48) ^
-                           ((unsigned long long)(data_->at(s + 1) & 0xFFFF) << 32) ^
-                           ((unsigned long long)(data_->at(s + 2) & 0xFFFF) << 16) ^
-                           (data_->at(s + 3) & 0xFFFF);
-        s += 4;
-    }
+    rolling_hash_ = (rolling_hash_ << 8) ^ (next_char & 0xFF);
 }
 
 void RabinKarpHasher::finish() {

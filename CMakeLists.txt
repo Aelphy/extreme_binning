@@ -10,14 +10,14 @@ FIND_PACKAGE(Boost COMPONENTS regex system filesystem REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 set(SOURCE_FILES backup.cpp
-        chunker.cpp
-        bin.cpp
-        index_item.cpp
-        primary_index.cpp
-        util.cpp
-        storage.cpp
-        chunk.cpp
-        rabin_karp_hasher.cpp)
+    chunker.cpp
+    bin.cpp
+    index_item.cpp
+    primary_index.cpp
+    util.cpp
+    storage.cpp
+    chunk.cpp
+    rabin_karp_hasher.cpp)
 add_executable(extreme_binning ${SOURCE_FILES})
 
 target_link_libraries(extreme_binning
