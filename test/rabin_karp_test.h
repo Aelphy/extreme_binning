@@ -89,5 +89,10 @@ public:
         hash("\1");
         TS_ASSERT_EQUALS(recompute('\1'), 256 + 1);
         hasher.finish();
+
+        std::string s1 = "fdsdf оптывдаот пваот sldfjn sdf nsdfj тыдваот sldfjn sldfjn gsldjfn sldfjn gsdlfjn gsldfjn gsdlfjn gsdfljn gsdlfj ngsdfjn gsdfl gnsdlfg nsdflg nsldfg";
+        unsigned long long int i = hash(s1);
+        TS_ASSERT_EQUALS(recompute('\1'), i << 8 ^ ('\1' & 0xFF));
+        hasher.finish();
     }
 };
