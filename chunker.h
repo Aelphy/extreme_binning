@@ -14,6 +14,9 @@
     #include "rabin_karp_hasher.h"
 
     #define WINDOW_SIZE 48
+    #define r D - 1
+    #define D AVG_CHUNK_SIZE - (AVG_CHUNK_SIZE >> 1)
+    #define AVG_CHUNK_SIZE 1024
 
     class Chunker {
      public:

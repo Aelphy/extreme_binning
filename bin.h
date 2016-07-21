@@ -4,23 +4,21 @@
 
 #ifndef EXTREME_BINNING_BIN_H
 #define EXTREME_BINNING_BIN_H
+    #include <vector>
+    #include "chunk.h"
 
+    class Bin {
+     public:
+        bool existing;
+        std::vector <Chunk *> chunks;
+        Bin();
+        ~Bin();
+        unsigned long long int get_id();
+        void set_id(unsigned long long int id);
+        void save();
+        void update(std::vector<Chunk *>);
+        static Bin* load(unsigned long long int id);
+     private:
+        unsigned long long int id_;
+    };
 #endif //EXTREME_BINNING_BIN_H
-
-#include <unordered_map>
-#include <vector>
-#include "storage.h"
-#include "chunk.h"
-
-class Bin {
- public:
-    bool existing;
-    std::unordered_map <Chunk *, int> chunks;
-    Bin(long long int id, bool existing);
-    ~Bin();
-    long long int get_id();
-    void save();
-    void update(std::vector<Chunk *>);
- private:
-    long long int id_;
-};

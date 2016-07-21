@@ -51,7 +51,7 @@ int main() {
                     chunk = chunker.get_next_chunk();
                     chunks.push_back(chunk);
                     util.init_md5_hash();
-                    util.hash_chunk(chunk->data, chunk->length);
+                    util.hash_chunk(chunk->get_data(), chunk->get_length());
                     util.finish_md5_hash();
                     memcpy(representative_chunk_hash, util.get_md5_result(), MD5_DIGEST_LENGTH);
                     // write info to recipe file
@@ -61,7 +61,7 @@ int main() {
                     chunk = chunker.get_next_chunk();
                     chunks.push_back(chunk);
                     util.init_md5_hash();
-                    util.hash_chunk(chunk->data, chunk->length);
+                    util.hash_chunk(chunk->get_data(), chunk->get_length());
                     util.finish_md5_hash();
 
                     if (hash_cmp(util.get_md5_result(), representative_chunk_hash) == -1) {
@@ -78,7 +78,7 @@ int main() {
                 if (bin != nullptr) {
                     if (!bin->existing) {
                         for (auto chunk : chunks) {
-                            bin->chunks[chunk] = chunk->length;
+                            bin->chunks.push_back(chunk);
                         }
 
                         bin->save();
@@ -86,7 +86,7 @@ int main() {
                         std::vector<Chunk *> delta;
 
                         for (auto chunk : chunks) {
-                            if (bin->chunks.find(chunk) == bin->chunks.end()) {
+                            if (find(bin->chunks.begin(), bin->chunks.end(), chunk) == bin->chunks.end()) {
                                 delta.push_back(chunk);
                             }
                         }

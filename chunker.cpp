@@ -7,10 +7,11 @@
 void Chunker::init(std::string fp) {
     fin_.open(fp, std::ifstream::binary);
     current_position_ = 0;
+    eof_ = false;
 }
 
-Chunk * Chunker::get_next_chunk() {
-    Chunk *chunk = new Chunk(Storage::gen_next_id());
+Chunk* Chunker::get_next_chunk() {
+    Chunk* chunk = new Chunk();
     std::vector<char> chunk_data;
 
     for (int i = 0; i < WINDOW_SIZE; ++i) {
@@ -47,7 +48,7 @@ void Chunker::finish() {
 }
 
 char Chunker::read_next() {
-    char buffer;
+    char buffer = '\0';
     fin_.read(&buffer, 1);
     current_position_++;
 

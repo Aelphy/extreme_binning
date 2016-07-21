@@ -3,22 +3,47 @@
 //
 
 #include "chunk.h"
-
-Chunk::Chunk(long long int id, char * chuk_data, int data_length) : id_(id), length(data_length) {
-    data = new char[data_length];
-    memcpy(data, chuk_data, data_length);
-};
+#include "storage.h"
+#include "exceptions.h"
 
 Chunk::~Chunk() {
-    delete[] data;
+    delete data_;
+}
+
+unsigned long long int Chunk::get_id() {
+    return id_;
+}
+
+void Chunk::set_id(unsigned long long int id) {
+    id_ = id;
+}
+
+void Chunk::set_length(int length) {
+    length_ = length;
+}
+
+Chunk* Chunk::load(unsigned long long int bin_id, unsigned long long int chunk_id) {
+    return Storage::get_instance()->read(bin_id, chunk_id);
+};
+
+char* Chunk::get_data() {
+ return data_;
+}
+
+int Chunk::get_length() {
+    return length_;
 }
 
 void Chunk::set_data(char *chunk_data, int data_length) {
-    data = new char[data_length];
-
-    for (int i = 0; i < data_length; ++i) {
-        data[i] = chunk_data[i];
+    if (data_ != nullptr) {
+        throw BrokenOrderException();
     }
 
-    length = data_length;
+    data_ = new char[data_length];
+
+    for (int i = 0; i < data_length; ++i) {
+        data_[i] = chunk_data[i];
+    }
+
+    length_ = data_length;
 }

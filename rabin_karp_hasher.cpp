@@ -1,8 +1,10 @@
 #include <iostream>
 #include "rabin_karp_hasher.h"
+#include "exceptions.h"
 
 RabinKarpHasher::RabinKarpHasher() {
     data_ = nullptr;
+    rolling_hash_ = -1;
     init_tables();
 }
 
@@ -17,7 +19,7 @@ RabinKarpHasher::~RabinKarpHasher() {
     delete[] Q88_;
 }
 
-long long int RabinKarpHasher::get_hash() {
+unsigned long long int RabinKarpHasher::get_hash() {
     return rolling_hash_;
 }
 
@@ -85,10 +87,9 @@ void RabinKarpHasher::init_tables() {
     }
 }
 
-void RabinKarpHasher::init(std::vector<char> *data) {
+void RabinKarpHasher::init(std::vector<char>* data) {
     if (data_ != nullptr) {
-        std::cerr <<  "do not forget to finish before init" << std::endl;
-        return;
+       throw BrokenOrderException();
     }
 
     data_ = data;
@@ -119,8 +120,7 @@ void RabinKarpHasher::init(std::vector<char> *data) {
 
 void RabinKarpHasher::recompute(char next_char) {
     if (data_ == nullptr) {
-        std::cerr <<  "impossible to recompute before init" << std::endl;
-        return;
+        throw BrokenOrderException();
     }
 
     data_->push_back(next_char);
@@ -130,9 +130,13 @@ void RabinKarpHasher::recompute(char next_char) {
 
 void RabinKarpHasher::finish() {
     if (data_ == nullptr) {
-        std::cerr <<  "do not forget to init before finish" << std::endl;
+        throw BrokenOrderException();
     }
 
     rolling_hash_ = -1;
     data_ = nullptr;
+}
+
+std::vector<char>* RabinKarpHasher::get_data() {
+    return data_;
 }
