@@ -8,12 +8,13 @@
 
     class Chunk {
      public:
+        Chunk();
         ~Chunk();
         unsigned long long int get_id();
         char* get_data();
         int get_length();
         void set_id(unsigned long long int id);
-        void set_data(char *data, int length);
+        void set_data(const char *data, int length);
         void set_length(int length);
         static Chunk* load(unsigned long long int bin_id, unsigned long long int chunk_id);
      private:

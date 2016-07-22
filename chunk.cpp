@@ -6,6 +6,11 @@
 #include "storage.h"
 #include "exceptions.h"
 
+Chunk::Chunk() {
+    id_ = -1;
+    data_ = nullptr;
+}
+
 Chunk::~Chunk() {
     delete data_;
 }
@@ -34,16 +39,13 @@ int Chunk::get_length() {
     return length_;
 }
 
-void Chunk::set_data(char *chunk_data, int data_length) {
+void Chunk::set_data(const char* chunk_data, int data_length) {
     if (data_ != nullptr) {
         throw BrokenOrderException();
     }
 
     data_ = new char[data_length];
-
-    for (int i = 0; i < data_length; ++i) {
-        data_[i] = chunk_data[i];
-    }
+    memcpy(data_, chunk_data, data_length);
 
     length_ = data_length;
 }

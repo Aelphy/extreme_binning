@@ -11,8 +11,7 @@
 
     #define CHUNKS_FILE "./data/chunks_file"
     #define BINS_FILE "./data/bins_file"
-    #define BIN_SIZE 5// sizeof bin should be here + sizeoff chunk_size + chunk_addrress
-    #define BUFFER_SIZE 5
+    #define BUFFER_SIZE 1024
 
     class Storage {
      public:

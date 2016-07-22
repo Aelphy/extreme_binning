@@ -20,31 +20,19 @@ int main( int argc, char *argv[] ) {
     status = CxxTest::Main< CxxTest::ErrorPrinter >( tmp, argc, argv );
     return status;
 }
-bool suite_RabinKarpTest_init = false;
-#include "/Users/Aelphy/Documents/projects/extreme_binning/test/rabin_karp_test.h"
+bool suite_StorageTest_init = false;
+#include "/Users/Aelphy/Documents/projects/extreme_binning/test/storage_test.h"
 
-static RabinKarpTest suite_RabinKarpTest;
+static StorageTest suite_StorageTest;
 
-static CxxTest::List Tests_RabinKarpTest = { 0, 0 };
-CxxTest::StaticSuiteDescription suiteDescription_RabinKarpTest( "test/rabin_karp_test.h", 11, "RabinKarpTest", suite_RabinKarpTest, Tests_RabinKarpTest );
+static CxxTest::List Tests_StorageTest = { 0, 0 };
+CxxTest::StaticSuiteDescription suiteDescription_StorageTest( "test/storage_test.h", 9, "StorageTest", suite_StorageTest, Tests_StorageTest );
 
-static class TestDescription_suite_RabinKarpTest_test_hash : public CxxTest::RealTestDescription {
+static class TestDescription_suite_StorageTest_test_storage_read_write : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_RabinKarpTest_test_hash() : CxxTest::RealTestDescription( Tests_RabinKarpTest, suiteDescription_RabinKarpTest, 46, "test_hash" ) {}
- void runTest() { suite_RabinKarpTest.test_hash(); }
-} testDescription_suite_RabinKarpTest_test_hash;
-
-static class TestDescription_suite_RabinKarpTest_test_recompute : public CxxTest::RealTestDescription {
-public:
- TestDescription_suite_RabinKarpTest_test_recompute() : CxxTest::RealTestDescription( Tests_RabinKarpTest, suiteDescription_RabinKarpTest, 94, "test_recompute" ) {}
- void runTest() { suite_RabinKarpTest.test_recompute(); }
-} testDescription_suite_RabinKarpTest_test_recompute;
-
-static class TestDescription_suite_RabinKarpTest_test_assert_throws : public CxxTest::RealTestDescription {
-public:
- TestDescription_suite_RabinKarpTest_test_assert_throws() : CxxTest::RealTestDescription( Tests_RabinKarpTest, suiteDescription_RabinKarpTest, 109, "test_assert_throws" ) {}
- void runTest() { suite_RabinKarpTest.test_assert_throws(); }
-} testDescription_suite_RabinKarpTest_test_assert_throws;
+ TestDescription_suite_StorageTest_test_storage_read_write() : CxxTest::RealTestDescription( Tests_StorageTest, suiteDescription_StorageTest, 11, "test_storage_read_write" ) {}
+ void runTest() { suite_StorageTest.test_storage_read_write(); }
+} testDescription_suite_StorageTest_test_storage_read_write;
 
 #include <cxxtest/Root.cpp>
 const char* CxxTest::RealWorldDescription::_worldName = "cxxtest";
