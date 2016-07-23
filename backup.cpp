@@ -26,7 +26,6 @@ int main() {
     Chunker chunker;
     PrimaryIndex *primary_index = new PrimaryIndex();
     Util util;
-    Storage::initialize();
     std::fstream recipe_file(RECIPE_FILE);
 
     for (boost::filesystem::directory_iterator itr(p); itr != end_itr; ++itr) {

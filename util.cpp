@@ -36,6 +36,6 @@ void Util::finish_md5_hash() {
     MD5_Final(md5_result_, &md_context_);
 }
 
-unsigned char * Util::get_md5_result() {
+unsigned char* Util::get_md5_result() {
     return md5_result_;
 }

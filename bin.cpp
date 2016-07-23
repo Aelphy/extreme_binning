@@ -25,14 +25,16 @@ void Bin::set_id(long long int id) {
     id_ = id;
 }
 
-unsigned long long int Bin::get_id() {
+long long int Bin::get_id() {
     return id_;
 }
 
 void Bin::save() {
-
+    Storage::write(this);
 }
 
-void Bin::update(std::vector<Chunk *>) {
-
+void Bin::update(std::vector<Chunk *> chunks) {
+    for (auto chunk: chunks) {
+        Storage::write(this, chunk);
+    }
 }

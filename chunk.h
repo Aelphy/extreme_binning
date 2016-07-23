@@ -10,11 +10,11 @@
      public:
         Chunk();
         ~Chunk();
-        unsigned long long int get_id();
+        long long int get_id();
         char* get_data();
         int get_length();
         void set_id(long long int id);
-        void set_data(const char *data, int length);
+        void set_data(char *data, int length);
         void set_length(int length);
         static Chunk* load(long long int bin_id, long long int chunk_id);
      private:

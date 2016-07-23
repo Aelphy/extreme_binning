@@ -12,10 +12,10 @@ Chunk::Chunk() {
 }
 
 Chunk::~Chunk() {
-    delete data_;
+    delete[] data_;
 }
 
-unsigned long long int Chunk::get_id() {
+long long int Chunk::get_id() {
     return id_;
 }
 
@@ -39,13 +39,12 @@ int Chunk::get_length() {
     return length_;
 }
 
-void Chunk::set_data(const char* chunk_data, int data_length) {
+void Chunk::set_data(char* chunk_data, int data_length) {
     if (data_ != nullptr) {
         throw BrokenOrderException();
     }
 
-    data_ = new char[data_length];
-    memcpy(data_, chunk_data, data_length);
+    data_ = chunk_data;
 
     length_ = data_length;
 }

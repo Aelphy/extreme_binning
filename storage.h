@@ -15,7 +15,6 @@
 
     class Storage {
      public:
-        static void initialize();
         static void finalize();
         static Storage* get_instance();
         static void write(Bin* bin);

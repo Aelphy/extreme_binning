@@ -5,7 +5,7 @@
 #include "storage.h"
 #include "exceptions.h"
 
-Storage * Storage::instance_;
+Storage* Storage::instance_;
 std::fstream Storage::chunks_file_;
 std::fstream Storage::bins_file_;
 
@@ -30,25 +30,28 @@ Storage::Storage(std::string bins_file_path, std::string chunks_file_path) {
     }
 }
 
-void Storage::initialize() {
-    if(!instance_) {
+Storage* Storage::get_instance() {
+    if(instance_ == nullptr) {
         instance_ = new Storage(BINS_FILE, CHUNKS_FILE);
     }
-}
 
-Storage* Storage::get_instance() {
     return instance_;
 }
 
 void Storage::finalize() {
-    //std::cout << "backup finished" << std::endl;
-    bins_file_.close();
-    chunks_file_.close();
-    delete instance_;
+    if(instance_ != nullptr) {
+        //std::cout << "backup finished" << std::endl;
+        bins_file_.close();
+        chunks_file_.close();
+        delete instance_;
+        instance_ = nullptr;
+    } else {
+        throw BrokenOrderException();
+    }
 }
 
 char* Storage::read_chunks_blockwise(long long int chunk_id, int size) {
-    char* buffer = new char [BUFFER_SIZE];
+    char* buffer = new char[BUFFER_SIZE];
     std::vector<char> result;
     chunks_file_.seekg(chunk_id);
     int pos = 0;
@@ -69,7 +72,10 @@ char* Storage::read_chunks_blockwise(long long int chunk_id, int size) {
     chunks_file_.clear();
     delete[] buffer;
 
-    return result.data();
+    char* tmp_data = new char[result.size()];
+    memcpy(tmp_data, result.data(), result.size());
+
+    return tmp_data;
 }
 
 Bin* Storage::read(long long int bin_id) {

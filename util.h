@@ -18,7 +18,7 @@
         void hash_chunk(const char *data, int len);
         void hash_file(std::string file_path);
         void finish_md5_hash();
-        unsigned char * get_md5_result();
+        unsigned char* get_md5_result();
      private:
         unsigned char md5_result_[MD5_DIGEST_LENGTH];
         MD5_CTX md_context_;

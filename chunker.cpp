@@ -38,7 +38,10 @@ Chunk* Chunker::get_next_chunk() {
         hasher_.finish();
     }
 
-    chunk->set_data(chunk_data.data(), chunk_data.size());
+    char* tmp_data = new char[chunk_data.size()];
+    memcpy(tmp_data, chunk_data.data(), chunk_data.size());
+
+    chunk->set_data(tmp_data, chunk_data.size());
 
     return chunk;
 }
