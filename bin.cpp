@@ -6,7 +6,6 @@
 #include "storage.h"
 
 Bin::Bin() {
-    existing = false;
     id_ = -1;
 }
 
@@ -16,14 +15,13 @@ Bin::~Bin() {
     }
 }
 
-Bin* Bin::load(unsigned long long int id) {
+Bin* Bin::load(long long int id) {
     Bin* bin = Storage::read(id);
-    bin->existing = true;
 
     return bin;
 }
 
-void Bin::set_id(unsigned long long int id) {
+void Bin::set_id(long long int id) {
     id_ = id;
 }
 

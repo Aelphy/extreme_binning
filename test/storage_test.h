@@ -25,17 +25,31 @@ public:
 
         bin->chunks.push_back(chunk1);
 
-        TS_ASSERT_EQUALS(storage->write(bin, chunk1), 0);
+        storage->write(bin, chunk1);
+        TS_ASSERT_EQUALS(chunk1->get_id(), 0);
         TS_ASSERT_THROWS(storage->write(bin, chunk1), OwerwriteException);
 
         Chunk* chunk3 = storage->read(bin->get_id(), chunk1->get_id());
         TS_ASSERT_EQUALS(chunk3->get_id(), chunk1->get_id());
         TS_ASSERT_EQUALS(chunk3->get_length(), chunk1->get_length());
 
+        std::string s3(chunk3->get_data()), s4(chunk1->get_data());
+        TS_ASSERT_EQUALS(s3, s4);
+
+        bin->chunks.push_back(chunk2);
+        storage->write(bin, chunk2);
+        TS_ASSERT_EQUALS(chunk2->get_id(), chunk1->get_length());
+
+        Chunk* chunk4 = storage->read(bin->get_id(), chunk2->get_id());
+
+        TS_ASSERT_EQUALS(chunk4->get_id(), chunk2->get_id());
+        std::string s5(chunk4->get_data()), s6(chunk2->get_data());
+        TS_ASSERT_EQUALS(s5, s6);
+
         storage->finalize();
         delete storage;
         delete bin;
-        delete chunk2;
         delete chunk3;
+        delete chunk4;
     }
 };

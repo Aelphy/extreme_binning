@@ -18,15 +18,15 @@
         static void initialize();
         static void finalize();
         static Storage* get_instance();
-        static unsigned long long int write(Bin* bin);
-        static unsigned long long int write(Bin* bin, Chunk* chunk);
-        static Bin* read(unsigned long long int bin_id);
-        static Chunk* read(unsigned long long int bin_id, unsigned long long int chunk_id);
+        static void write(Bin* bin);
+        static void write(Bin* bin, Chunk* chunk);
+        static Bin* read(long long int bin_id);
+        static Chunk* read(long long int bin_id, long long int chunk_id);
      private:
         static Storage* instance_;
         static std::fstream chunks_file_;
         static std::fstream bins_file_;
-        static char* read_chunks_blockwise(unsigned long long int chunk_id, int size);
+        static char* read_chunks_blockwise(long long int chunk_id, int size);
         Storage(std::string bins_file_path, std::string chunks_file_path);
     };
 #endif //EXTREME_BINNING_STORAGE_H

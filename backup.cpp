@@ -76,7 +76,7 @@ int main() {
                 Bin *bin = primary_index->add(file_hash, representative_chunk_hash);
 
                 if (bin != nullptr) {
-                    if (!bin->existing) {
+                    if (bin->get_id() != -1) {
                         for (auto chunk : chunks) {
                             bin->chunks.push_back(chunk);
                         }

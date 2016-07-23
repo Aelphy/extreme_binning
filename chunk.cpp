@@ -19,7 +19,7 @@ unsigned long long int Chunk::get_id() {
     return id_;
 }
 
-void Chunk::set_id(unsigned long long int id) {
+void Chunk::set_id(long long int id) {
     id_ = id;
 }
 
@@ -27,7 +27,7 @@ void Chunk::set_length(int length) {
     length_ = length;
 }
 
-Chunk* Chunk::load(unsigned long long int bin_id, unsigned long long int chunk_id) {
+Chunk* Chunk::load(long long int bin_id, long long int chunk_id) {
     return Storage::get_instance()->read(bin_id, chunk_id);
 };
 

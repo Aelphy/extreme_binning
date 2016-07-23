@@ -28,8 +28,6 @@ Storage::Storage(std::string bins_file_path, std::string chunks_file_path) {
     if (!chunks_file_.is_open()) {
         throw FileOpenException();
     }
-
-    // clear both files
 }
 
 void Storage::initialize() {
@@ -49,7 +47,7 @@ void Storage::finalize() {
     delete instance_;
 }
 
-char* Storage::read_chunks_blockwise(unsigned long long int chunk_id, int size) {
+char* Storage::read_chunks_blockwise(long long int chunk_id, int size) {
     char* buffer = new char [BUFFER_SIZE];
     std::vector<char> result;
     chunks_file_.seekg(chunk_id);
@@ -68,14 +66,14 @@ char* Storage::read_chunks_blockwise(unsigned long long int chunk_id, int size) 
         pos += с;
     }
 
+    chunks_file_.clear();
     delete[] buffer;
 
     return result.data();
 }
 
-Bin* Storage::read(unsigned long long int bin_id) {
-    unsigned long long int cid;
-    long long int next_chunk_offset = bin_id;
+Bin* Storage::read(long long int bin_id) {
+    long long int cid, next_chunk_offset = bin_id;
     int chunk_size;
     Bin* bin = new Bin();
     bin->set_id(bin_id);
@@ -99,9 +97,8 @@ Bin* Storage::read(unsigned long long int bin_id) {
     return bin;
 }
 
-unsigned long long int Storage::write(Bin* bin, Chunk* chunk) {
-    unsigned long long int bid, cid;
-    long long int next_chunk_offset = bin->get_id();
+void Storage::write(Bin* bin, Chunk* chunk) {
+    long long int bid, cid, next_chunk_offset = bin->get_id();
     int chunk_size;
 
     if (bin->get_id() == -1) { // a bin is new
@@ -120,52 +117,49 @@ unsigned long long int Storage::write(Bin* bin, Chunk* chunk) {
             }
         }
 
-        bins_file_.seekp((unsigned long long int) bins_file_.tellg() + sizeof(cid) + sizeof(chunk_size));
+        // write next chunk addres to the end of previous entry
+        next_chunk_offset = (long long int) bins_file_.tellg() - sizeof(next_chunk_offset); // here is a fucking magic, putting seekp here makes doesn't work
         bins_file_.seekg(0, bins_file_.end);
         bid = bins_file_.tellg();
-        bins_file_ << bid;
+        bins_file_.seekp(next_chunk_offset);
+        bins_file_.write(reinterpret_cast<const char*>(&bid), sizeof(bid));
+
         bins_file_.seekp(0, bins_file_.end);
     }
 
-    chunks_file_.seekg(0, chunks_file_.end);
-    cid = chunks_file_.tellg();
+    chunks_file_.seekp(0, chunks_file_.end);
+    cid = chunks_file_.tellp();
     chunk->set_id(cid);
 
     chunk_size = chunk->get_length();
     next_chunk_offset = -1;
 
-    bins_file_.write(reinterpret_cast<const char *>(&cid), sizeof(cid));
-    bins_file_.write(reinterpret_cast<const char *>(&chunk_size), sizeof(chunk_size));
-    bins_file_.write(reinterpret_cast<const char *>(&next_chunk_offset), sizeof(next_chunk_offset));
+    bins_file_.write(reinterpret_cast<const char*>(&cid), sizeof(cid));
+    bins_file_.write(reinterpret_cast<const char*>(&chunk_size), sizeof(chunk_size));
+    bins_file_.write(reinterpret_cast<const char*>(&next_chunk_offset), sizeof(next_chunk_offset));
 
     chunks_file_.write(chunk->get_data(), chunk->get_length());
-
-    return cid;
 }
 
-unsigned long long int Storage::write(Bin* bin) {
+void Storage::write(Bin* bin) {
     for (int i = 0; i != bin->chunks.size(); ++i) {
         write(bin, bin->chunks.at(i));
     }
-
-    return bin->get_id();
 }
 
-Chunk * Storage::read(unsigned long long int bin_id, unsigned long long int chunk_id) {
-    unsigned long long int cid;
-    long long int next_chunk_offset = bin_id;
+Chunk * Storage::read(long long int bin_id, long long int chunk_id) {
+    long long int cid, next_chunk_offset = bin_id;
     int chunk_size;
 
     while(next_chunk_offset != -1) {
-        Chunk* chunk = new Chunk();
-
         bins_file_.seekg(next_chunk_offset);
         bins_file_.read(reinterpret_cast<char*>(&cid), sizeof(cid));
         bins_file_.read(reinterpret_cast<char*>(&chunk_size), sizeof(chunk_size));
         bins_file_.read(reinterpret_cast<char*>(&next_chunk_offset), sizeof(next_chunk_offset));
 
-
         if (cid == chunk_id) {
+            Chunk* chunk = new Chunk();
+
             chunk->set_id(cid);
             chunk->set_length(chunk_size);
             chunk->set_data(read_chunks_blockwise(cid, chunk_size), chunk_size);
