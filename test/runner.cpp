@@ -20,19 +20,19 @@ int main( int argc, char *argv[] ) {
     status = CxxTest::Main< CxxTest::ErrorPrinter >( tmp, argc, argv );
     return status;
 }
-bool suite_BinTest_init = false;
-#include "/Users/Aelphy/Documents/projects/extreme_binning/test/bin_test.h"
+bool suite_IndexItemTest_init = false;
+#include "/Users/Aelphy/Documents/projects/extreme_binning/test/index_item_test.h"
 
-static BinTest suite_BinTest;
+static IndexItemTest suite_IndexItemTest;
 
-static CxxTest::List Tests_BinTest = { 0, 0 };
-CxxTest::StaticSuiteDescription suiteDescription_BinTest( "test/bin_test.h", 11, "BinTest", suite_BinTest, Tests_BinTest );
+static CxxTest::List Tests_IndexItemTest = { 0, 0 };
+CxxTest::StaticSuiteDescription suiteDescription_IndexItemTest( "test/index_item_test.h", 8, "IndexItemTest", suite_IndexItemTest, Tests_IndexItemTest );
 
-static class TestDescription_suite_BinTest_test_creation : public CxxTest::RealTestDescription {
+static class TestDescription_suite_IndexItemTest_test_index_item : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_BinTest_test_creation() : CxxTest::RealTestDescription( Tests_BinTest, suiteDescription_BinTest, 13, "test_creation" ) {}
- void runTest() { suite_BinTest.test_creation(); }
-} testDescription_suite_BinTest_test_creation;
+ TestDescription_suite_IndexItemTest_test_index_item() : CxxTest::RealTestDescription( Tests_IndexItemTest, suiteDescription_IndexItemTest, 10, "test_index_item" ) {}
+ void runTest() { suite_IndexItemTest.test_index_item(); }
+} testDescription_suite_IndexItemTest_test_index_item;
 
 #include <cxxtest/Root.cpp>
 const char* CxxTest::RealWorldDescription::_worldName = "cxxtest";

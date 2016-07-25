@@ -4,7 +4,7 @@
 
 #ifndef EXTREME_BINNING_UTIL_H
 #define EXTREME_BINNING_UTIL_H
-    #include <openssl/md5.h>
+    #include <openssl/sha.h>
     #include <string>
     #include <iostream>
     #include <fstream>
@@ -14,14 +14,14 @@
 
     class Util {
      public:
-        void init_md5_hash();
+        void init_hash();
         void hash_chunk(const char *data, int len);
         void hash_file(std::string file_path);
-        void finish_md5_hash();
-        unsigned char* get_md5_result();
+        void finish_hash();
+        char* get_result();
      private:
-        unsigned char md5_result_[MD5_DIGEST_LENGTH];
-        MD5_CTX md_context_;
+        unsigned char result_[SHA256_DIGEST_LENGTH];
+        SHA256_CTX context_;
     };
 
 #endif //EXTREME_BINNING_UTIL_H

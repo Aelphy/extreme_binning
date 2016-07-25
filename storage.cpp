@@ -6,8 +6,6 @@
 #include "exceptions.h"
 
 Storage* Storage::instance_;
-std::fstream Storage::chunks_file_;
-std::fstream Storage::bins_file_;
 
 Storage::Storage(std::string bins_file_path, std::string chunks_file_path) {
     bins_file_.open(bins_file_path, std::fstream::out | std::fstream::trunc);

@@ -26,7 +26,6 @@
         bool eof();
      private:
         RabinKarpHasher hasher_;
-        bool eof_ = false;
         std::ifstream fin_;
         long long int current_position_;
         char read_next();

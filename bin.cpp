@@ -16,7 +16,7 @@ Bin::~Bin() {
 }
 
 Bin* Bin::load(long long int id) {
-    Bin* bin = Storage::read(id);
+    Bin* bin = Storage::get_instance()->read(id);
 
     return bin;
 }
@@ -30,11 +30,11 @@ long long int Bin::get_id() {
 }
 
 void Bin::save() {
-    Storage::write(this);
+    Storage::get_instance()->write(this);
 }
 
 void Bin::update(std::vector<Chunk *> chunks) {
     for (auto chunk: chunks) {
-        Storage::write(this, chunk);
+        Storage::get_instance()->write(this, chunk);
     }
 }

@@ -10,8 +10,8 @@ PrimaryIndex::~PrimaryIndex() {
     }
 }
 
-Bin * PrimaryIndex::add(const unsigned char file_hash[MD5_DIGEST_LENGTH],
-                        const unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH]) {
+Bin * PrimaryIndex::add(const char file_hash[SHA256_DIGEST_LENGTH],
+                        const char representative_chunk_hash[SHA256_DIGEST_LENGTH]) {
     auto item = items_by_file_hash.find(file_hash);
 
     if (item == items_by_file_hash.end()) {
@@ -28,8 +28,8 @@ Bin * PrimaryIndex::add(const unsigned char file_hash[MD5_DIGEST_LENGTH],
     return nullptr;
 }
 
-void PrimaryIndex::insert(const unsigned char file_hash[MD5_DIGEST_LENGTH],
-                          const unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH]) {
+void PrimaryIndex::insert(const char file_hash[SHA256_DIGEST_LENGTH],
+                          const char representative_chunk_hash[SHA256_DIGEST_LENGTH]) {
     Bin * bin = new Bin();
     IndexItem * item = new IndexItem(file_hash, representative_chunk_hash, -1);
     items_by_file_hash[file_hash] = item;

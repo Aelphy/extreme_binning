@@ -13,12 +13,12 @@
 
 class PrimaryIndex {
  public:
-    std::unordered_map <const unsigned char *, IndexItem *> items_by_file_hash;
-    std::unordered_map <const unsigned char *, IndexItem *> items_by_representative_chunk_hash;
+    std::unordered_map <const char *, IndexItem *> items_by_file_hash;
+    std::unordered_map <const char *, IndexItem *> items_by_representative_chunk_hash;
     ~PrimaryIndex();
-    Bin * add(const unsigned char file_hash[MD5_DIGEST_LENGTH],
-              const unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH]);
+    Bin * add(const char file_hash[SHA256_DIGEST_LENGTH],
+              const char representative_chunk_hash[SHA256_DIGEST_LENGTH]);
  private:
-    void insert(const unsigned char file_hash[MD5_DIGEST_LENGTH],
-                const unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH]);
+    void insert(const char file_hash[SHA256_DIGEST_LENGTH],
+                const char representative_chunk_hash[SHA256_DIGEST_LENGTH]);
 };

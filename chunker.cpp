@@ -7,7 +7,6 @@
 void Chunker::init(std::string fp) {
     fin_.open(fp, std::ifstream::binary);
     current_position_ = 0;
-    eof_ = false;
 }
 
 Chunk* Chunker::get_next_chunk() {
@@ -18,19 +17,17 @@ Chunk* Chunker::get_next_chunk() {
         if (!fin_.eof()) {
             chunk_data.push_back(read_next());
         } else {
-            eof_ = true;
             break;
         }
     }
 
-    if (!eof_) {
+    if (!fin_.eof()) {
         hasher_.init(&chunk_data);
 
         while (hasher_.get_hash() % D != r) {
             if (!fin_.eof()) {
                 hasher_.recompute(read_next());
             } else {
-                eof_ = true;
                 break;
             }
         }
@@ -59,5 +56,5 @@ char Chunker::read_next() {
 }
 
 bool Chunker::eof() {
-    return eof_;
+    return fin_.eof();
 }

@@ -4,8 +4,8 @@
 
 #define RECIPE_FILE "./data/recipe_file"
 
-int hash_cmp(unsigned char hash1[MD5_DIGEST_LENGTH], unsigned char hash2[MD5_DIGEST_LENGTH]) {
-    for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+int hash_cmp(char hash1[SHA256_DIGEST_LENGTH], char hash2[SHA256_DIGEST_LENGTH]) {
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         if (hash1[i] < hash2[i]) {
             return -1;
         }
@@ -32,39 +32,39 @@ int main() {
         if (is_regular_file(itr->path())) {
             std::string file_path = itr->path().string();
 
-            util.init_md5_hash();
+            util.init_hash();
             util.hash_file(file_path);
-            util.finish_md5_hash();
-            const unsigned char * file_hash = util.get_md5_result();
+            util.finish_hash();
+            const char * file_hash = util.get_result();
 
             auto item = primary_index->items_by_file_hash.find(file_hash);
 
             if (item == primary_index->items_by_file_hash.end()) {
                 chunker.init(file_path);
-                util.init_md5_hash();
+                util.init_hash();
                 std::vector<Chunk *> chunks;
                 Chunk *chunk;
-                unsigned char representative_chunk_hash[MD5_DIGEST_LENGTH];
+                char representative_chunk_hash[SHA256_DIGEST_LENGTH];
 
                 if (!chunker.eof()) {
                     chunk = chunker.get_next_chunk();
                     chunks.push_back(chunk);
-                    util.init_md5_hash();
+                    util.init_hash();
                     util.hash_chunk(chunk->get_data(), chunk->get_length());
-                    util.finish_md5_hash();
-                    memcpy(representative_chunk_hash, util.get_md5_result(), MD5_DIGEST_LENGTH);
+                    util.finish_hash();
+                    memcpy(representative_chunk_hash, util.get_result(), SHA256_DIGEST_LENGTH);
                     // write info to recipe file
                 }
 
                 while (!chunker.eof()) {
                     chunk = chunker.get_next_chunk();
                     chunks.push_back(chunk);
-                    util.init_md5_hash();
+                    util.init_hash();
                     util.hash_chunk(chunk->get_data(), chunk->get_length());
-                    util.finish_md5_hash();
+                    util.finish_hash();
 
-                    if (hash_cmp(util.get_md5_result(), representative_chunk_hash) == -1) {
-                        memcpy(representative_chunk_hash, util.get_md5_result(), MD5_DIGEST_LENGTH);
+                    if (hash_cmp(util.get_result(), representative_chunk_hash) == -1) {
+                        memcpy(representative_chunk_hash, util.get_result(), SHA256_DIGEST_LENGTH);
                     }
 
                     // write info to recipe file
@@ -103,7 +103,7 @@ int main() {
 
     recipe_file.close();
     delete primary_index;
-    Storage::finalize();
+    Storage::get_instance()->finalize();
 
     return 0;
 }
