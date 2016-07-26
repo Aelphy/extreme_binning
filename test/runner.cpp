@@ -26,11 +26,11 @@ bool suite_IndexItemTest_init = false;
 static IndexItemTest suite_IndexItemTest;
 
 static CxxTest::List Tests_IndexItemTest = { 0, 0 };
-CxxTest::StaticSuiteDescription suiteDescription_IndexItemTest( "test/index_item_test.h", 8, "IndexItemTest", suite_IndexItemTest, Tests_IndexItemTest );
+CxxTest::StaticSuiteDescription suiteDescription_IndexItemTest( "test/index_item_test.h", 12, "IndexItemTest", suite_IndexItemTest, Tests_IndexItemTest );
 
 static class TestDescription_suite_IndexItemTest_test_index_item : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_IndexItemTest_test_index_item() : CxxTest::RealTestDescription( Tests_IndexItemTest, suiteDescription_IndexItemTest, 10, "test_index_item" ) {}
+ TestDescription_suite_IndexItemTest_test_index_item() : CxxTest::RealTestDescription( Tests_IndexItemTest, suiteDescription_IndexItemTest, 14, "test_index_item" ) {}
  void runTest() { suite_IndexItemTest.test_index_item(); }
 } testDescription_suite_IndexItemTest_test_index_item;
 

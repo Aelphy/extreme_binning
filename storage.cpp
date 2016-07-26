@@ -28,6 +28,11 @@ Storage::Storage(std::string bins_file_path, std::string chunks_file_path) {
     }
 }
 
+Storage::~Storage() {
+    bins_file_.close();
+    chunks_file_.close();
+}
+
 Storage* Storage::get_instance() {
     if(instance_ == nullptr) {
         instance_ = new Storage(BINS_FILE, CHUNKS_FILE);
@@ -39,8 +44,6 @@ Storage* Storage::get_instance() {
 void Storage::finalize() {
     if(instance_ != nullptr) {
         //std::cout << "backup finished" << std::endl;
-        bins_file_.close();
-        chunks_file_.close();
         delete instance_;
         instance_ = nullptr;
     } else {
@@ -48,18 +51,18 @@ void Storage::finalize() {
     }
 }
 
-char* Storage::read_chunks_blockwise(long long int chunk_id, int size) {
+char* Storage::read_chunks_blockwise(long long int chunk_id, unsigned long int size) {
     char* buffer = new char[BUFFER_SIZE];
     std::vector<char> result;
     chunks_file_.seekg(chunk_id);
-    int pos = 0;
+    unsigned long int pos = 0;
 
     while (pos < size) {
-        int result_size = result.size();
+        unsigned long int result_size = result.size();
         chunks_file_.read(buffer, BUFFER_SIZE);
-        int с = 0;
+        unsigned long int с = 0;
 
-        for (int i = result_size; i < std::min(result_size + BUFFER_SIZE, size); ++i) {
+        for (unsigned long int i = result_size; i < std::min(result_size + BUFFER_SIZE, size); ++i) {
             result.push_back(buffer[i]);
             с++;
         }
@@ -78,7 +81,7 @@ char* Storage::read_chunks_blockwise(long long int chunk_id, int size) {
 
 Bin* Storage::read(long long int bin_id) {
     long long int cid, next_chunk_offset = bin_id;
-    int chunk_size;
+    unsigned long int chunk_size;
     Bin* bin = new Bin();
     bin->set_id(bin_id);
 
@@ -103,7 +106,7 @@ Bin* Storage::read(long long int bin_id) {
 
 void Storage::write(Bin* bin, Chunk* chunk) {
     long long int bid, cid, next_chunk_offset = bin->get_id();
-    int chunk_size;
+    unsigned long int chunk_size;
 
     if (bin->get_id() == -1) { // a bin is new
         bins_file_.seekp(0, bins_file_.end);
@@ -151,9 +154,9 @@ void Storage::write(Bin* bin) {
     }
 }
 
-Chunk * Storage::read(long long int bin_id, long long int chunk_id) {
+Chunk* Storage::read(long long int bin_id, long long int chunk_id) {
     long long int cid, next_chunk_offset = bin_id;
-    int chunk_size;
+    unsigned long int chunk_size;
 
     while(next_chunk_offset != -1) {
         bins_file_.seekg(next_chunk_offset);

@@ -12,13 +12,13 @@
         ~Chunk();
         long long int get_id();
         char* get_data();
-        int get_length();
+        unsigned long int get_length();
         void set_id(long long int id);
-        void set_data(char *data, int length);
-        void set_length(int length);
+        void set_data(char *data, unsigned long int length);
+        void set_length(unsigned long int length);
         static Chunk* load(long long int bin_id, long long int chunk_id);
      private:
-        int length_;
+        unsigned long int length_;
         char* data_;
         long long int id_;
     };

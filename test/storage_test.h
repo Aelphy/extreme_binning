@@ -1,5 +1,5 @@
 // ../cxxtest-4.4/bin/cxxtestgen --have-eh --error-printer -o test/runner.cpp test/storage_test.h
-// g++ -o test/runner -std=c++11 -I../cxxtest-4.4 test/runner.cpp  storage.cpp bin.cpp chunk.cpp
+// g++ -o test/runner -std=c++11 -I/usr/local/Cellar/openssl/1.0.2h_1/include -I../cxxtest-4.4 -lcrypto test/runner.cpp  storage.cpp bin.cpp chunk.cpp util.cpp
 // test/runner
 
 #include <cxxtest/TestSuite.h>
@@ -12,7 +12,6 @@ public:
         Bin* bin = new Bin();
         Chunk* chunk1 = new Chunk();
         Chunk* chunk2 = new Chunk();
-        Storage* storage = Storage::get_instance();
 
         std::string s1 = "test data 1";
         std::string s2 = "test data 2";
@@ -25,30 +24,31 @@ public:
         chunk2->set_data(s2_c, 11);
 
         bin->chunks.push_back(chunk1);
+        bin->chunks.push_back(chunk2);
 
-        storage->write(bin, chunk1);
-        TS_ASSERT_THROWS(storage->write(bin, chunk1), OwerwriteException);
+        Storage::get_instance()->write(bin, chunk1);
+        TS_ASSERT_THROWS(Storage::get_instance()->write(bin, chunk1), OwerwriteException);
 
-        Chunk* chunk3 = storage->read(bin->get_id(), chunk1->get_id());
+        Chunk* chunk3 = Storage::get_instance()->read(bin->get_id(), chunk1->get_id());
         TS_ASSERT_EQUALS(chunk3->get_id(), chunk1->get_id());
-        TS_ASSERT_EQUALS(chunk3->get_length(), chunk1->get_length());
 
-        std::string s3(chunk3->get_data()), s4(chunk1->get_data());
+        std::string s3(chunk3->get_data(), chunk3->get_length());
+        std::string s4(chunk1->get_data(), chunk1->get_length());
         TS_ASSERT_EQUALS(s3, s4);
 
-        bin->chunks.push_back(chunk2);
-        storage->write(bin, chunk2);
+        Storage::get_instance()->write(bin, chunk2);
         TS_ASSERT_EQUALS(chunk2->get_id(), chunk1->get_length());
 
-        Chunk* chunk4 = storage->read(bin->get_id(), chunk2->get_id());
+        Chunk* chunk4 = Storage::get_instance()->read(bin->get_id(), chunk2->get_id());
 
         TS_ASSERT_EQUALS(chunk4->get_id(), chunk2->get_id());
-        std::string s5(chunk4->get_data()), s6(chunk2->get_data());
+        std::string s5(chunk4->get_data(), chunk4->get_length());
+        std::string s6(chunk2->get_data(), chunk2->get_length());
         TS_ASSERT_EQUALS(s5, s6);
 
-        TS_ASSERT_EQUALS(storage->read(-1, -1), nullptr);
+        TS_ASSERT_EQUALS(Storage::get_instance()->read(-1, -1), nullptr);
 
-        storage->finalize();
+        Storage::finalize();
         delete bin;
         delete chunk3;
         delete chunk4;

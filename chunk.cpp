@@ -23,7 +23,7 @@ void Chunk::set_id(long long int id) {
     id_ = id;
 }
 
-void Chunk::set_length(int length) {
+void Chunk::set_length(unsigned long int length) {
     length_ = length;
 }
 
@@ -35,11 +35,11 @@ char* Chunk::get_data() {
  return data_;
 }
 
-int Chunk::get_length() {
+unsigned long int Chunk::get_length() {
     return length_;
 }
 
-void Chunk::set_data(char* chunk_data, int data_length) {
+void Chunk::set_data(char* chunk_data, unsigned long int data_length) {
     if (data_ != nullptr) {
         throw BrokenOrderException();
     }

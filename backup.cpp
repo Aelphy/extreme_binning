@@ -4,20 +4,6 @@
 
 #define RECIPE_FILE "./data/recipe_file"
 
-int hash_cmp(char hash1[SHA256_DIGEST_LENGTH], char hash2[SHA256_DIGEST_LENGTH]) {
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-        if (hash1[i] < hash2[i]) {
-            return -1;
-        }
-
-        if (hash1[i] > hash2[i]) {
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
 int main() {
     std::string backup_data_dir = "/Users/Aelphy/Documents/projects/extreme_binning/test_data";
     boost::filesystem::path p(backup_data_dir);

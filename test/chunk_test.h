@@ -1,5 +1,5 @@
 // ../cxxtest-4.4/bin/cxxtestgen --have-eh --error-printer -o test/runner.cpp  test/chunk_test.h
-// g++ -o test/runner -std=c++11 -I../cxxtest-4.4 test/runner.cpp storage.cpp bin.cpp chunk.cpp
+// g++ -o test/runner -std=c++11 -I/usr/local/Cellar/openssl/1.0.2h_1/include -I../cxxtest-4.4 -lcrypto test/runner.cpp storage.cpp bin.cpp chunk.cpp util.cpp
 // test/runner
 
 #include <cxxtest/TestSuite.h>

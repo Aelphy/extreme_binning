@@ -15,7 +15,7 @@
 
     class Storage {
      public:
-        void finalize();
+        static void finalize();
         static Storage* get_instance();
         void write(Bin* bin);
         void write(Bin* bin, Chunk* chunk);
@@ -25,7 +25,8 @@
         static Storage* instance_;
         std::fstream chunks_file_;
         std::fstream bins_file_;
-        char* read_chunks_blockwise(long long int chunk_id, int size);
+        char* read_chunks_blockwise(long long int chunk_id, unsigned long int size);
         Storage(std::string bins_file_path, std::string chunks_file_path);
+        ~Storage();
     };
 #endif //EXTREME_BINNING_STORAGE_H
