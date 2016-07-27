@@ -22,12 +22,11 @@ class UtilTest : public CxxTest::TestSuite {
         SHA256_Final(result, &context);
 
         char* tmp1 = util->get_result();
-        char tmp2[SHA256_DIGEST_LENGTH + 1];
+        char tmp2[SHA256_DIGEST_LENGTH];
         memcpy(tmp2, result, SHA256_DIGEST_LENGTH);
-        tmp2[SHA256_DIGEST_LENGTH] = 0;
 
-        std::string s1(tmp1);
-        std::string s2(tmp2);
+        std::string s1(tmp1, SHA256_DIGEST_LENGTH);
+        std::string s2(tmp2, SHA256_DIGEST_LENGTH);
 
         TS_ASSERT_EQUALS(s1, s2);
 

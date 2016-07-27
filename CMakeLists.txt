@@ -12,8 +12,7 @@ include_directories(${OPENSSL_INCLUDE_DIR})
 set(SOURCE_FILES backup.cpp
     chunker.cpp
     bin.cpp
-    index_item.cpp
-    primary_index.cpp
+        primary_index.cpp
     util.cpp
     storage.cpp
     chunk.cpp

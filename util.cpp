@@ -10,7 +10,7 @@ void Util::init_hash() {
     SHA256_Init(&context_);
 }
 
-void Util::hash_chunk(const char* data, int len) {
+void Util::hash_chunk(const char* data, unsigned long int len) {
     SHA256_Update(&context_, data, len);
 }
 
@@ -36,9 +36,8 @@ void Util::finish_hash() {
 }
 
 char* Util::get_result() {
-    char* result = new char[SHA256_DIGEST_LENGTH + 1];
+    char* result = new char[SHA256_DIGEST_LENGTH];
     memcpy(result, result_, SHA256_DIGEST_LENGTH);
-    result[SHA256_DIGEST_LENGTH] = 0;
 
     return result;
 }

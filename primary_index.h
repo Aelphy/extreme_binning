@@ -8,17 +8,20 @@
 #endif //EXTREME_BINNING_PRIMARY_INDEX_H
 
 #include <unordered_map>
-#include "index_item.h"
 #include "bin.h"
+
+#define RECEPIE_FILE "./data/recepie_file"
 
 class PrimaryIndex {
  public:
-    std::unordered_map <const char *, IndexItem *> items_by_file_hash;
-    std::unordered_map <const char *, IndexItem *> items_by_representative_chunk_hash;
+    PrimaryIndex(std::string file_path);
     ~PrimaryIndex();
-    Bin * add(const char file_hash[SHA256_DIGEST_LENGTH],
-              const char representative_chunk_hash[SHA256_DIGEST_LENGTH]);
+    std::unordered_map <std::string, long long int> bin_ids_by_file_hash;
+    std::unordered_map <std::string, long long int> bin_ids_by_representative_chunk_hash;
+    void insert(std::string file_name,
+                std::string file_hash,
+                Bin* bin);
  private:
-    void insert(const char file_hash[SHA256_DIGEST_LENGTH],
-                const char representative_chunk_hash[SHA256_DIGEST_LENGTH]);
+    std::ofstream recepie_file_;
+    void write_recepie(std::string file_name, std::vector<Chunk*>* chunks);
 };

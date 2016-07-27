@@ -3,13 +3,18 @@
 //
 
 #include "chunker.h"
+#include "exceptions.h"
 
 void Chunker::init(std::string fp) {
     fin_.open(fp, std::ifstream::binary);
-    current_position_ = 0;
+
+    if (!fin_.is_open()) {
+        throw FileOpenException();
+    }
 }
 
 Chunk* Chunker::get_next_chunk() {
+    RabinKarpHasher hasher_;
     Chunk* chunk = new Chunk();
     std::vector<char> chunk_data;
 
@@ -50,7 +55,6 @@ void Chunker::finish() {
 char Chunker::read_next() {
     char buffer = '\0';
     fin_.read(&buffer, 1);
-    current_position_++;
 
     return buffer;
 }

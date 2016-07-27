@@ -25,9 +25,7 @@
         void finish();
         bool eof();
      private:
-        RabinKarpHasher hasher_;
         std::ifstream fin_;
-        long long int current_position_;
         char read_next();
     };
 

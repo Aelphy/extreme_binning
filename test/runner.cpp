@@ -21,12 +21,12 @@ int main( int argc, char *argv[] ) {
     return status;
 }
 bool suite_IndexItemTest_init = false;
-#include "/Users/Aelphy/Documents/projects/extreme_binning/test/index_item_test.h"
+#include "/Users/Aelphy/Documents/projects/extreme_binning/test/primary_index_test.h"
 
 static IndexItemTest suite_IndexItemTest;
 
 static CxxTest::List Tests_IndexItemTest = { 0, 0 };
-CxxTest::StaticSuiteDescription suiteDescription_IndexItemTest( "test/index_item_test.h", 12, "IndexItemTest", suite_IndexItemTest, Tests_IndexItemTest );
+CxxTest::StaticSuiteDescription suiteDescription_IndexItemTest( "test/primary_index_test.h", 12, "IndexItemTest", suite_IndexItemTest, Tests_IndexItemTest );
 
 static class TestDescription_suite_IndexItemTest_test_index_item : public CxxTest::RealTestDescription {
 public:
