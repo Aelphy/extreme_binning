@@ -54,16 +54,17 @@ void Storage::finalize() {
 char* Storage::read_chunks_blockwise(long long int chunk_id, unsigned long int size) {
     char* buffer = new char[BUFFER_SIZE];
     std::vector<char> result;
-    chunks_file_.seekg(chunk_id);
     unsigned long int pos = 0;
+    unsigned long int result_size = 0;
+    chunks_file_.seekg(chunk_id);
 
     while (pos < size) {
-        unsigned long int result_size = result.size();
+        result_size = result.size();
         chunks_file_.read(buffer, BUFFER_SIZE);
         unsigned long int с = 0;
 
-        for (unsigned long int i = result_size; i < std::min(result_size + BUFFER_SIZE, size); ++i) {
-            result.push_back(buffer[i]);
+        for (unsigned long int i = result_size; i < std::min(result_size + chunks_file_.gcount(), size); ++i) {
+            result.push_back(buffer[i - result_size]);
             с++;
         }
 
