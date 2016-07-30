@@ -6,15 +6,15 @@
 #include "exceptions.h"
 
 PrimaryIndex::PrimaryIndex(std::string file_path) {
-    recepie_file_.open(file_path, std::ofstream::binary);
+    recipe_file_.open(file_path, std::ofstream::binary);
 
-    if (!recepie_file_.is_open()) {
+    if (!recipe_file_.is_open()) {
         throw FileOpenException();
     }
 }
 
 PrimaryIndex::~PrimaryIndex() {
-    recepie_file_.close();
+    recipe_file_.close();
 }
 
 void PrimaryIndex::insert(std::string file_name,
@@ -41,7 +41,7 @@ void PrimaryIndex::insert(std::string file_name,
             bin_ids_by_file_hash[file_hash] = bin->get_id();
             bin_ids_by_representative_chunk_hash[representative_chunk_hash] = bin->get_id();
 
-            write_recepie(file_name, &bin->chunks);
+            write_recipe(file_name, &bin->chunks);
         } else {
             Bin* existing_bin = Bin::load(item->second);
             std::vector<Chunk*> delta;
@@ -79,29 +79,29 @@ void PrimaryIndex::insert(std::string file_name,
             delete existing_bin;
 
             bin->update(delta);
-            write_recepie(file_name, &bin->chunks);
+            write_recipe(file_name, &bin->chunks);
         }
     } else {
         Bin* loaded_bin = Bin::load(item->second);
 
-        write_recepie(file_name, &loaded_bin->chunks);
+        write_recipe(file_name, &loaded_bin->chunks);
 
         delete loaded_bin;
     }
 }
 
-void PrimaryIndex::write_recepie(std::string file_name, std::vector<Chunk*>* chunks) {
+void PrimaryIndex::write_recipe(std::string file_name, std::vector<Chunk*>* chunks) {
     unsigned long int file_name_length = file_name.length();
-    recepie_file_.write(reinterpret_cast<const char*>(&file_name_length), sizeof(file_name_length));
-    recepie_file_.write(file_name.data(), file_name_length);
+    recipe_file_.write(reinterpret_cast<const char*>(&file_name_length), sizeof(file_name_length));
+    recipe_file_.write(file_name.data(), file_name_length);
     long long int cid;
 
     for (auto chunk : *chunks) {
         cid = chunk->get_id();
 
-        recepie_file_.write(reinterpret_cast<const char*>(&cid), sizeof(cid));
+        recipe_file_.write(reinterpret_cast<const char*>(&cid), sizeof(cid));
     }
 
     cid = -1;
-    recepie_file_.write(reinterpret_cast<const char*>(&cid), sizeof(cid));
+    recipe_file_.write(reinterpret_cast<const char*>(&cid), sizeof(cid));
 }

@@ -10,13 +10,13 @@
 
     class Bin {
      public:
-        std::vector <Chunk *> chunks;
+        std::vector <Chunk*> chunks;
         Bin();
         ~Bin();
         long long int get_id();
         void set_id(long long int id);
         void save();
-        void update(std::vector<Chunk *>);
+        void update(std::vector<Chunk*>);
         Chunk* get_representative_chunk();
         static Bin* load(long long int id);
      private:

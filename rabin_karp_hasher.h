@@ -15,7 +15,7 @@
      public:
         RabinKarpHasher();
         ~RabinKarpHasher();
-        void init(std::vector<char> *data);
+        void init(std::vector<char>* data);
         void recompute(char next);
         void finish();
         unsigned long long int get_hash();

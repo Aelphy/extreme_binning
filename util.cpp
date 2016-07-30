@@ -3,6 +3,7 @@
 //
 
 #include "util.h"
+#include "exceptions.h"
 
 void Util::init_hash() {
     SHA256_CTX new_md_context;
@@ -18,9 +19,8 @@ void Util::hash_file(std::string file_path) {
     std::ifstream fin(file_path, std::ifstream::binary);
     char buffer[FILE_STEP];
 
-    if (not fin) {
-        std::cerr << "file: " << file_path << " failed to open" << std::endl;
-        exit(1);
+    if (!fin.is_open()) {
+        throw FileOpenException();
     }
 
     while (!fin.eof()) {

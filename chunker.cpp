@@ -5,15 +5,15 @@
 #include "chunker.h"
 #include "exceptions.h"
 
-void Chunker::init(std::string fp) {
-    fin_.open(fp, std::ifstream::binary);
+void Chunker::init(std::string file_path) {
+    fin_.open(file_path, std::ifstream::binary);
 
     if (!fin_.is_open()) {
         throw FileOpenException();
     }
 }
 
-Chunk* Chunker::get_next_chunk() {
+Chunk* Chunker::get_next_chunk(unsigned long long int divisor, unsigned long long int residual) {
     RabinKarpHasher hasher_;
     Chunk* chunk = new Chunk();
     std::vector<char> chunk_data;
@@ -29,7 +29,7 @@ Chunk* Chunker::get_next_chunk() {
     if (!fin_.eof()) {
         hasher_.init(&chunk_data);
 
-        while (hasher_.get_hash() % D != r) {
+        while ((hasher_.get_hash() % divisor) != residual) {
             if (!fin_.eof()) {
                 hasher_.recompute(read_next());
             } else {

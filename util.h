@@ -15,7 +15,7 @@
     class Util {
      public:
         void init_hash();
-        void hash_chunk(const char *data, unsigned long int len);
+        void hash_chunk(const char* data, unsigned long int len);
         void hash_file(std::string file_path);
         void finish_hash();
         char* get_result();

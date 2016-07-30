@@ -35,7 +35,7 @@ void Bin::save() {
     Storage::get_instance()->write(this);
 }
 
-void Bin::update(std::vector<Chunk *> chunks) {
+void Bin::update(std::vector<Chunk*> chunks) {
     for (auto chunk: chunks) {
         Storage::get_instance()->write(this, chunk);
     }

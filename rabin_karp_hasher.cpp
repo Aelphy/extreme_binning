@@ -97,8 +97,8 @@ void RabinKarpHasher::init(std::vector<char>* data) {
 
     // First, process a few bytes so that the number of bytes remaining is a multiple of 8.
     // This makes the later loop easier.
-    const int starter_bytes = data_->size() % 8;
-    int s = 0;
+    unsigned long int starter_bytes = data_->size() % 8;
+    unsigned long int s = 0;
 
     while (s < starter_bytes) {
         rolling_hash_ = (rolling_hash_ << 8) ^ (data_->at(s++) & 0xFF);

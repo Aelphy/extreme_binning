@@ -14,7 +14,7 @@
         char* get_data();
         unsigned long int get_length();
         void set_id(long long int id);
-        void set_data(char *data, unsigned long int length);
+        void set_data(char* data, unsigned long int length);
         void set_length(unsigned long int length);
         static Chunk* load(long long int bin_id, long long int chunk_id);
      private:

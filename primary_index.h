@@ -22,6 +22,6 @@ class PrimaryIndex {
                 std::string file_hash,
                 Bin* bin);
  private:
-    std::ofstream recepie_file_;
-    void write_recepie(std::string file_name, std::vector<Chunk*>* chunks);
+    std::ofstream recipe_file_;
+    void write_recipe(std::string file_name, std::vector<Chunk*>* chunks);
 };
